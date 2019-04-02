@@ -12,6 +12,9 @@ server:
 
 # 数据源
 spring:
+#  autoconfigure:
+#    #禁用Spring boot自身的自动配置类
+#    exclude: org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -24,7 +27,7 @@ spring:
   # 数据源
   datasource:
     name: mysql_test
-#    jdbc-url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false
+#    jdbc-url: jdbc:mysql://aliyun:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false
 #    username: root
 #    password: 644886
     #driver-class-name: com.mysql.jdbc.Driver 自动加载
@@ -34,7 +37,7 @@ spring:
       filters: stat
       #driver-class-name: com.mysql.jdbc.Driver
       #基本属性
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+      jdbc-url: jdbc:mysql://aliyun:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
       password: 644886
       #配置初始化大小/最小/最大
@@ -55,6 +58,27 @@ spring:
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
 
+  redis:
+    # Redis服务器地址
+    host: aliyun
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器连接端口
+    port: 6379
+    #  自己redis设置的密码
+    password: 644886
+#    jedis:
+#      pool:
+#        max-active: 200
+#        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        #        max-wait: -1
+#        # 连接池中的最大空闲连接
+#        max-idle: 10
+#        # 连接池中的最小空闲连接
+#        min-idle: 0
+    #连接超时时间（毫秒）
+    timeout: 10000
+
 
 # mybatis配置
 mybatis:
@@ -64,3 +88,14 @@ mybatis:
 #        xml: mybatis-config.xml
 #  mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.pier.bean
+
+elasticsearch:
+  # 一定要与服务器相同
+  cluster-name: elasticsearch
+  host: aliyun
+  port: 9300
+  pool: 5
+
+logging:
+  config: classpath:logback.xml
+#  level: error

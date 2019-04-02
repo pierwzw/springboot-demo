@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
+    /*@Cacheable(value = "users", key = "'username:' + #username")*/
     public User getUser(String username, String password) {
         return userDao.getUser(username, password);
     }
