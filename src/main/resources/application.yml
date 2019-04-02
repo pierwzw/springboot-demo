@@ -117,6 +117,16 @@ spring:
     consumer:
       group-id: mygroup
 
+  mail:
+    username: 501311328@qq.com
+    # 非密码而是授权码
+    password: ktvrgsikqadbbhcb
+    host: smtp.qq.com
+    default-encoding: UTF-8
+    smtp:
+      ssl:
+        enable: true
+
 # mybatis配置
 mybatis:
 #  config-location:
