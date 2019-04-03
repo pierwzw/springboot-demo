@@ -25,7 +25,7 @@ public class EmailController {
 
         try {
             mailUtil.sendMail("2019773066@qq.com", "123", UUID.randomUUID().toString().substring(0, 6));
-            log.info("send mail successed");
+            log.info("send mail succeed");
         } catch (Exception e) {
             return "发送失败!";
         }

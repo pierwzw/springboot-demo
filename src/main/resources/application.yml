@@ -146,3 +146,8 @@ elasticsearch:
 logging:
   config: classpath:logback.xml
 #  level: error
+
+app:
+  java:
+    # 读取maven的配置
+    version: @java.version@
