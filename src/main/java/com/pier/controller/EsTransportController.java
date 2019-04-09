@@ -24,8 +24,8 @@ import java.util.Random;
  * @date 2019/3/31 22:21
  */
 @RestController
-@RequestMapping("/es")
-public class EsController {
+@RequestMapping("/est")
+public class EsTransportController {
 
     /**
      * 测试索引

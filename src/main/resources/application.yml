@@ -141,6 +141,7 @@ elasticsearch:
   cluster-name: elasticsearch
   host: aliyun
   port: 9300
+  http-port: 9200
   pool: 5
 
 logging:

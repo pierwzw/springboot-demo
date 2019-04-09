@@ -34,23 +34,30 @@ import java.util.ArrayList;
 /*@EnableElasticsearchRepositories("com.pier.dao")*/
 @Slf4j
 public class ElasticConfig {
+    /** value的属性不能为static,否则为NULL，应该注在set方法上 */
     /**
      * 主机,可以为集群 ，以逗号隔开
      */
     @Value("${elasticsearch.host}")
-    private static String esHost;
+    private String esHost;
 
     /**
      * 传输层端口，注意和ES的Restful API默认9200端口有区分
      */
     @Value("${elasticsearch.port}")
-    private static int esPort;
+    private int esPort;
+
+    /**
+     * Restful API默认端口，注意和ES的传输层端口9300有区分
+     */
+    @Value("${elasticsearch.http-port}")
+    private int httpPort;
 
     /**
      * 集群名称
      */
     @Value("${elasticsearch.cluster-name}")
-    private static String esClusterName;
+    private String esClusterName;
 
     /**
      * 连接池
@@ -71,14 +78,18 @@ public class ElasticConfig {
     void init() {
         // 解决netty冲突
         System.setProperty("es.set.netty.runtime.available.processors", "false");
+        hostList = new ArrayList<>();
+        hostList.add(new HttpHost(esHost, httpPort, schema));
+        log.info("init postconstruct");
     }
 
     static {
-        hostList = new ArrayList<>();
-        String[] hostStrs = esHost.split(",");
-        for (String host : hostStrs) {
-            hostList.add(new HttpHost(host, esPort, schema));
-        }
+        //hostList = new ArrayList<>();
+        //String[] hostStrs = esHost.split(",");
+        //for (String host : hostStrs) {
+        //hostList.add(new HttpHost(esHost, esPort, schema));
+        //}
+        log.info("init static block");
     }
 
     @Bean

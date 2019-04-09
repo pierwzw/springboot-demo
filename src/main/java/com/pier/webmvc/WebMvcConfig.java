@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @auther zhongweiwu
  * @date 2019/4/3 11:42
  */
-@Configuration
+/*@Configuration*/
 public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
@@ -37,7 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/asd/**").excludePathPatterns("/login","/verify");
     }
 
-    @Bean
+    /*@Bean*/
     public FilterRegistrationBean filterRegist() {
         FilterRegistrationBean frBean = new FilterRegistrationBean();
         // egistration.setDispatcherTypes(DispatcherType.REQUEST);
@@ -47,7 +47,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return frBean;
     }
 
-    @Bean
+    /*@Bean*/
     public ServletListenerRegistrationBean listenerRegist() {
         ServletListenerRegistrationBean srb = new ServletListenerRegistrationBean();
         srb.setListener(new MyHttpSessionListener());

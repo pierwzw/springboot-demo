@@ -104,7 +104,7 @@ public class EsTransportUtil {
      * @Date: 2018/11/6 14:46
      * @Modified by:
      */
-    public boolean isTypeExist(String index, String type) {
+    public static boolean isTypeExist(String index, String type) {
         return isIndexExist(index)
                 ? client.admin().indices().prepareTypesExists(index).setTypes(type).execute().actionGet().isExists()
                 : false;
@@ -340,7 +340,7 @@ public class EsTransportUtil {
      * @param searchResponse
      * @param highlightField
      */
-    private static List<Map<String, Object>> setSearchResponse(SearchResponse searchResponse, String highlightField) {
+    public static List<Map<String, Object>> setSearchResponse(SearchResponse searchResponse, String highlightField) {
         List<Map<String, Object>> sourceList = new ArrayList<Map<String, Object>>();
         StringBuffer stringBuffer = new StringBuffer();
 

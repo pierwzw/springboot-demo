@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/4/2 17:39
  */
 @Slf4j
-@Component
+/*@Component*/
 public class Consumer {
     @KafkaListener(topics = "test")
     public void listen(ConsumerRecord<?,String> record) throws InterruptedException {
