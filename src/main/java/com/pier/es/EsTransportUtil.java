@@ -36,7 +36,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Component
-public class ElasticsearchUtil {
+public class EsTransportUtil {
 
     @Autowired
     private TransportClient transportClient;

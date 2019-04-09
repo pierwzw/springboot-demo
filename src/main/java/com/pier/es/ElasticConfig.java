@@ -1,7 +1,13 @@
 package com.pier.es;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -9,14 +15,18 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 /*import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;*/
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 /**
+ * es配置类，分别采用了restHighLevelClient和transportClient
  * @auther zhongweiwu
  * @date 2019/3/31 20:29
  */
@@ -25,22 +35,22 @@ import java.net.InetAddress;
 @Slf4j
 public class ElasticConfig {
     /**
-     * 主机
+     * 主机,可以为集群 ，以逗号隔开
      */
     @Value("${elasticsearch.host}")
-    private String esHost;
+    private static String esHost;
 
     /**
      * 传输层端口，注意和ES的Restful API默认9200端口有区分
      */
     @Value("${elasticsearch.port}")
-    private int esPort;
+    private static int esPort;
 
     /**
      * 集群名称
      */
     @Value("${elasticsearch.cluster-name}")
-    private String esClusterName;
+    private static String esClusterName;
 
     /**
      * 连接池
@@ -48,15 +58,59 @@ public class ElasticConfig {
     @Value("${elasticsearch.pool}")
     private String poolSize;
 
+    private static ArrayList<HttpHost> hostList = null;
+    private static String schema = "http"; // 使用的协议
+    private static int connectTimeOut = 1000; // 连接超时时间
+    private static int socketTimeOut = 30000; // 连接超时时间
+    private static int connectionRequestTimeOut = 500; // 获取连接的超时时间
+
+    private static int maxConnectNum = 100; // 最大连接数
+    private static int maxConnectPerRoute = 100; // 最大路由连接数
+
     @PostConstruct
     void init() {
         // 解决netty冲突
         System.setProperty("es.set.netty.runtime.available.processors", "false");
     }
 
-    @Bean("transportClient")
+    static {
+        hostList = new ArrayList<>();
+        String[] hostStrs = esHost.split(",");
+        for (String host : hostStrs) {
+            hostList.add(new HttpHost(host, esPort, schema));
+        }
+    }
+
+    @Bean
+    public RestHighLevelClient restHighLevelClient() {
+        log.info("开始初始化restHighLevelClient");
+        RestClientBuilder builder = RestClient.builder(hostList.toArray(new HttpHost[0]));
+        // 异步httpclient连接延时配置
+        builder.setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
+            @Override
+            public RequestConfig.Builder customizeRequestConfig(RequestConfig.Builder requestConfigBuilder) {
+                requestConfigBuilder.setConnectTimeout(connectTimeOut);
+                requestConfigBuilder.setSocketTimeout(socketTimeOut);
+                requestConfigBuilder.setConnectionRequestTimeout(connectionRequestTimeOut);
+                return requestConfigBuilder;
+            }
+        });
+        // 异步httpclient连接数配置
+        builder.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+            @Override
+            public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                httpClientBuilder.setMaxConnTotal(maxConnectNum);
+                httpClientBuilder.setMaxConnPerRoute(maxConnectPerRoute);
+                return httpClientBuilder;
+            }
+        });
+        RestHighLevelClient client = new RestHighLevelClient(builder);
+        return client;
+    }
+
+    @Bean
     public TransportClient transportClient() {
-        log.info("开始初始化Elasticsearch");
+        log.info("开始初始化transportClient");
         try {
             Settings esSettings = Settings.builder()
                     .put("cluster.name", esClusterName)
@@ -84,9 +138,9 @@ public class ElasticConfig {
      *        exclude: org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration
      * @return
      */
-   /* @Bean
+    @Bean
     public ElasticsearchOperations elasticsearchTemplateCustom() {
-        Client client = client();
+        Client client = transportClient();
         if (client != null) {
             return new ElasticsearchTemplate(client);
         } else {
@@ -94,10 +148,10 @@ public class ElasticConfig {
             log.error("初始化Elasticsearch失败！", 100011);
         }
         return null;
-    }*/
+    }
 
     //Embedded Elasticsearch Server
-    /*@Bean
+   /* @Bean
     public ElasticsearchOperations elasticsearchTemplate() {
         return new ElasticsearchTemplate(nodeBuilder().local(true).node().client());
     }*/

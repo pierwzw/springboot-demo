@@ -3,6 +3,7 @@ package com.pier.webmvc;
 import com.pier.Interceptor.MyInterceptor;
 import com.pier.filter.MyFilter;
 import com.pier.listener.MyHttpSessionListener;
+import org.springframework.boot.web.servlet.DispatcherType;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -39,13 +40,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean filterRegist() {
         FilterRegistrationBean frBean = new FilterRegistrationBean();
+        // egistration.setDispatcherTypes(DispatcherType.REQUEST);
         frBean.setFilter(new MyFilter());
         frBean.addUrlPatterns("/*");
         System.out.println("filter");
         return frBean;
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Bean
     public ServletListenerRegistrationBean listenerRegist() {
         ServletListenerRegistrationBean srb = new ServletListenerRegistrationBean();

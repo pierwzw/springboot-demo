@@ -2,7 +2,7 @@ package com.pier.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pier.bean.EsModel;
-import com.pier.es.ElasticsearchUtil;
+import com.pier.es.EsTransportUtil;
 import com.pier.es.EsPage;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -47,8 +47,8 @@ public class EsController {
      */
     @RequestMapping("/createIndex")
     public String createIndex(HttpServletRequest request, HttpServletResponse response) {
-        if (!ElasticsearchUtil.isIndexExist(indexName)) {
-            ElasticsearchUtil.createIndex(indexName);
+        if (!EsTransportUtil.isIndexExist(indexName)) {
+            EsTransportUtil.createIndex(indexName);
         } else {
             return "索引已经存在";
         }
@@ -67,7 +67,7 @@ public class EsController {
         jsonObject.put("age", 25);
         jsonObject.put("name", "j-" + new Random(100).nextInt());
         jsonObject.put("date", new Date());
-        String id = ElasticsearchUtil.addData(jsonObject, indexName, esType, jsonObject.getString("id"));
+        String id = EsTransportUtil.addData(jsonObject, indexName, esType, jsonObject.getString("id"));
         return id;
     }
 
@@ -84,7 +84,7 @@ public class EsController {
         esModel.setAge(30);
         esModel.setDate(new Date());
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(esModel);
-        String id = ElasticsearchUtil.addData(jsonObject, indexName, esType, jsonObject.getString("id"));
+        String id = EsTransportUtil.addData(jsonObject, indexName, esType, jsonObject.getString("id"));
         return id;
     }
 
@@ -96,7 +96,7 @@ public class EsController {
     @RequestMapping("/delete")
     public String delete(String id) {
         if (StringUtils.isNotBlank(id)) {
-            ElasticsearchUtil.deleteDataById(indexName, esType, id);
+            EsTransportUtil.deleteDataById(indexName, esType, id);
             return "删除id=" + id;
         } else {
             return "id为空";
@@ -116,7 +116,7 @@ public class EsController {
             jsonObject.put("age", 31);
             jsonObject.put("name", "修改");
             jsonObject.put("date", new Date());
-            ElasticsearchUtil.updateDataById(jsonObject, indexName, esType, id);
+            EsTransportUtil.updateDataById(jsonObject, indexName, esType, id);
             return "id=" + id;
         } else {
             return "id为空";
@@ -133,7 +133,7 @@ public class EsController {
     @RequestMapping("/getData")
     public String getData(String id) {
         if (StringUtils.isNotBlank(id)) {
-            Map<String, Object> map = ElasticsearchUtil.searchDataById(indexName, esType, id, null);
+            Map<String, Object> map = EsTransportUtil.searchDataById(indexName, esType, id, null);
             if (map == null){
                 return "have no data";
             }
@@ -159,7 +159,7 @@ public class EsController {
         } else {
             boolQuery.must(QueryBuilders.matchQuery("name", "m-m"));
         }
-        List<Map<String, Object>> list = ElasticsearchUtil.
+        List<Map<String, Object>> list = EsTransportUtil.
                 searchListData(indexName, esType, boolQuery, 10, "name", null, "name");
         return JSONObject.toJSONString(list);
     }
@@ -173,7 +173,7 @@ public class EsController {
     @RequestMapping("/queryWildcardData")
     public String queryWildcardData() {
         QueryBuilder queryBuilder = QueryBuilders.wildcardQuery("name.keyword", "j-?466");
-        List<Map<String, Object>> list = ElasticsearchUtil.searchListData(indexName, esType, queryBuilder, 10, null, null, null);
+        List<Map<String, Object>> list = EsTransportUtil.searchListData(indexName, esType, queryBuilder, 10, null, null, null);
         return JSONObject.toJSONString(list);
     }
 
@@ -185,7 +185,7 @@ public class EsController {
     @RequestMapping("/queryRegexpData")
     public String queryRegexpData() {
         QueryBuilder queryBuilder = QueryBuilders.regexpQuery("name.keyword", "m--[0-9]{1,11}");
-        List<Map<String, Object>> list = ElasticsearchUtil.searchListData(indexName, esType, queryBuilder, 10, null, null, null);
+        List<Map<String, Object>> list = EsTransportUtil.searchListData(indexName, esType, queryBuilder, 10, null, null, null);
         return JSONObject.toJSONString(list);
     }
 
@@ -199,7 +199,7 @@ public class EsController {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         boolQuery.must(QueryBuilders.rangeQuery("age").from(21)
                 .to(25));
-        List<Map<String, Object>> list = ElasticsearchUtil.searchListData(indexName, esType, boolQuery, 10, null, null, null);
+        List<Map<String, Object>> list = EsTransportUtil.searchListData(indexName, esType, boolQuery, 10, null, null, null);
         return JSONObject.toJSONString(list);
     }
 
@@ -213,7 +213,7 @@ public class EsController {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         boolQuery.must(QueryBuilders.rangeQuery("date").from("2018-04-25T08:33:44.840Z")
                 .to("2019-04-25T10:03:08.081Z"));
-        List<Map<String, Object>> list = ElasticsearchUtil.searchListData(indexName, esType, boolQuery, 10, null, null, null);
+        List<Map<String, Object>> list = EsTransportUtil.searchListData(indexName, esType, boolQuery, 10, null, null, null);
         return JSONObject.toJSONString(list);
     }
 
@@ -233,7 +233,7 @@ public class EsController {
             BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
             boolQuery.must(QueryBuilders.rangeQuery("date").from("2018-04-25T08:33:44.840Z")
                     .to("2019-04-25T10:03:08.081Z"));
-            EsPage list = ElasticsearchUtil.searchDataPage(indexName, esType, Integer.parseInt(startPage), Integer.parseInt(pageSize), boolQuery, null, null, null);
+            EsPage list = EsTransportUtil.searchDataPage(indexName, esType, Integer.parseInt(startPage), Integer.parseInt(pageSize), boolQuery, null, null, null);
             return JSONObject.toJSONString(list);
         } else {
             return "startPage或者pageSize缺失";

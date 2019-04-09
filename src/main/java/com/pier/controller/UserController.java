@@ -40,6 +40,8 @@ public class UserController {
             }
             redisTemplate.opsForValue().set(key, user);
         }
+        // 即使是@RestController还是能返回view而不是json,与官方文档是说的
+        // ‘只要添加的有Jackson2依赖，Spring Boot应用中的任何@RestController默认都会渲染为JSON响应’，不太一样
         return new ModelAndView("index").addObject("user", user);
     }
 }
