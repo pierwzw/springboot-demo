@@ -40,8 +40,10 @@ spring:
       jdbc-url: jdbc:mysql://aliyun:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
       password: 644886
+      default-auto-commit: false
+      default-transaction-isolation: 4 # 2:读已提交 4：可重复读
       #配置初始化大小/最小/最大
-      initial-size: 10
+      initial-size: 2
       min-idle: 1
       max-active: 20
       #获取连接等待超时时间
@@ -76,6 +78,7 @@ spring:
 #        max-idle: 10
 #        # 连接池中的最小空闲连接
 #        min-idle: 0
+#        max-wait: 2000
     #连接超时时间（毫秒）
     timeout: 10000
 
@@ -126,6 +129,16 @@ spring:
     smtp:
       ssl:
         enable: true
+
+  #mongodb配置
+  data:
+    mongodb:
+      uri: mongodb://pier1:644886@localhost:27017/test
+#      host: localhost
+#      username: pier1
+#      password: 644886
+#      port: 27017
+#      database: test
 
 # mybatis配置
 mybatis:

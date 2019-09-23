@@ -12,14 +12,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/3/30 16:13
  */
 @Configuration //注册到springboot 容器中
+@EnableTransactionManagement
 @MapperScan(basePackages = "com.pier.dao", sqlSessionTemplateRef  = "sqlSessionTemplate")
 public class DataSourceConfig {
 
@@ -41,7 +43,7 @@ public class DataSourceConfig {
     }
 
     //事务管理
-    @Bean(name = "transactionManager")
+    @Bean("txManager")
     @Primary
     public DataSourceTransactionManager testTransactionManager(@Qualifier("dataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
@@ -49,7 +51,7 @@ public class DataSourceConfig {
 
     @Bean(name = "sqlSessionTemplate")
     @Primary
-    public SqlSessionTemplate testSqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    public SqlSessionTemplate testSqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 

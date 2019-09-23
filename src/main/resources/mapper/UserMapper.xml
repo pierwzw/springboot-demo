@@ -19,8 +19,16 @@
 		select * from t_user where username=#{username} and password=#{password}
 	</select>
 
+	<select id="findUsers" parameterType="java.lang.String" resultMap="userMap">
+		select * from t_user where username=#{username}
+	</select>
+
+	<select id="findUsersByAccount" parameterType="java.lang.Double" resultMap="userMap">
+		select * from t_user where account=#{account}
+	</select>
+
 	<insert id="insertUser" parameterType="com.pier.bean.User" useGeneratedKeys="true" keyProperty="id">
-		insert into t_user value (null,#{user.username},#{user.password},#{user.account})
+		insert into t_user values (null,#{user.username},#{user.password},#{user.account})
 	</insert>
 
 	<!-- 批量操作和foreach标签 -->

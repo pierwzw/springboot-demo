@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/2 18:25
  */
 @Service

@@ -31,11 +31,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/3/31 21:28
  */
 @Slf4j
-@Component
+//@Component
 public class EsTransportUtil {
 
     @Autowired

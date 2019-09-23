@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/3/31 22:21
  */
 @RestController

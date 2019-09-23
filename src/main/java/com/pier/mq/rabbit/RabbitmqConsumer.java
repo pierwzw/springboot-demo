@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/2 16:41
  */
 @Slf4j

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/3 11:39
  */
 public class MyFilter implements Filter {

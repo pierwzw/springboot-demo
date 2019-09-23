@@ -27,10 +27,10 @@ import java.util.ArrayList;
 
 /**
  * es配置类，分别采用了restHighLevelClient和transportClient
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/3/31 20:29
  */
-@Configuration
+//@Configuration
 /*@EnableElasticsearchRepositories("com.pier.dao")*/
 @Slf4j
 public class ElasticConfig {
@@ -89,7 +89,7 @@ public class ElasticConfig {
         //for (String host : hostStrs) {
         //hostList.add(new HttpHost(esHost, esPort, schema));
         //}
-        log.info("init static block");
+        //log.info("init static block");
     }
 
     @Bean

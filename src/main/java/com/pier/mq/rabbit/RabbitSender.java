@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 import java.util.UUID;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/2 16:00
  */
 @Slf4j

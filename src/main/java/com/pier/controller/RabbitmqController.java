@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/2 15:52
  */
 @Slf4j

@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/3 11:38
  */
 public class MyInterceptor implements HandlerInterceptor {

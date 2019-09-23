@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.util.Date;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/3/31 21:10
  */
 @Data

@@ -41,7 +41,7 @@
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <!-- 级别从小到达：ERROR、WARN、INFO、DEBUG -->
+    <!-- 级别从小到大：ERROR、WARN、INFO、DEBUG -->
     <!--用户指定包下 打印等级大于等于INFO级别-->
     <logger name="com.pier" level="INFO" />
 

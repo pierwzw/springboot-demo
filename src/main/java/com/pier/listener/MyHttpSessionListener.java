@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/3 11:41
  */
 public class MyHttpSessionListener implements HttpSessionListener {

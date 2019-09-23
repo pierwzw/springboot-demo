@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @auther zhongweiwu
+ * @author zhongweiwu
  * @date 2019/4/3 11:42
  */
 /*@Configuration*/
