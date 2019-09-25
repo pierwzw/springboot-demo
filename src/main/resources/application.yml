@@ -184,3 +184,9 @@ app:
   java:
     # 读取maven的配置
     version: @java.version@
+
+# 用于websocket
+rabbitmq:
+  queue:
+    msg: spring-boot-queue-msg
+    user: spring-boot-queue-user
