@@ -60,6 +60,25 @@ spring:
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
 
+  servlet:
+    #文件上传
+    multipart:
+      #是否启用Spring MVC 多分部上传功能
+      enabled: true
+      #将文件写入磁盘的阀值。值可以使用后缀“ MB ”或“ KB ” 来表示兆字节或字节大小
+      file-size-threshold: 0
+      #location: D:/tmp
+      max-file-size: 5MB
+      max-request-size: 20MB
+      #是否延迟多部件文件请求的参数和文件的解析
+      resolve-lazily: false
+
+  #自定义用户名和l密码
+  security:
+    user:
+      name: pier
+      password: 644886
+
   redis:
     # Redis服务器地址
     host: aliyun
